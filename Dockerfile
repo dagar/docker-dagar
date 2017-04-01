@@ -23,10 +23,10 @@ RUN apt-get update \
 		unison \
 		unison-gtk \
 		unzip \
-		vim
+		vim \
 		wget \
 		zip \
-		zsh
+		zsh \
 	&& apt-get -y autoremove \
 	&& apt-get clean autoclean \
 	# cleanup
