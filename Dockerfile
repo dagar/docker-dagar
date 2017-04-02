@@ -8,11 +8,9 @@ MAINTAINER Daniel Agar <daniel@agar.ca>
 ENV DEBIAN_FRONTEND noninteractive
 
 
-RUN apt-add-repository -y ppa:hsoft/ppa \
-	&& apt-get update && apt-get -y --quiet --no-install-recommends install \
+RUN apt-get update && apt-get -y --quiet --no-install-recommends install \
 		bzip2 \
 		ca-certificates \
-		dupeguru-pe \
 		fdupes \
 		findimagedupes \
 		git \
