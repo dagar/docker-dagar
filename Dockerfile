@@ -7,10 +7,14 @@ MAINTAINER Daniel Agar <daniel@agar.ca>
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update \
-	&& apt-get -y --quiet --no-install-recommends install \
+
+RUN apt-add-repository -y ppa:hsoft/ppa \
+	&& apt-get update && apt-get -y --quiet --no-install-recommends install \
 		bzip2 \
 		ca-certificates \
+		dupeguru-pe \
+		fdupes \
+		findimagedupes \
 		git \
 		gnupg-agent \
 		gosu \
@@ -37,16 +41,15 @@ ENV DISPLAY :0
 ENV TERM=xterm
 
 # ssh server
-RUN mkdir /var/run/sshd
-RUN echo 'root:screencast' | chpasswd
-RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-
-# SSH login fix. Otherwise user is kicked off after login
-RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
-
-RUN adduser --disabled-password --gecos '' --uid 1026 --gid 100 dagar
-USER dagar
-
+RUN mkdir -p /var/run/sshd
+RUN sed -i "s/UsePrivilegeSeparation.*/UsePrivilegeSeparation no/g" /etc/ssh/sshd_config
+RUN sed -i "s/UsePAM.*/UsePAM no/g" /etc/ssh/sshd_config
+#RUN sed -i "s/PermitRootLogin.*/PermitRootLogin yes/g" /etc/ssh/sshd_config
+#RUN echo root:root | chpasswd
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
+
+RUN adduser --disabled-password --gecos '' --uid 1026 --gid 100 dagar
+RUN adduser --disabled-password --gecos '' --uid 1027 --gid 100 emily
+USER dagar
 
