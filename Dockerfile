@@ -49,5 +49,5 @@ CMD ["/usr/sbin/sshd", "-D"]
 
 RUN adduser --disabled-password --gecos '' --uid 1026 --gid 100 dagar
 RUN adduser --disabled-password --gecos '' --uid 1027 --gid 100 emily
-USER dagar
+#USER dagar
 
